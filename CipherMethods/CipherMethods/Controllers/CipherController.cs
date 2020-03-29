@@ -26,11 +26,17 @@ namespace CipherMethods.Controllers
         {
             return "value";
         }
-
-        //cesar y cifrado de ruta
-        // POST: api/Cipher
+        
+        /// <summary>
+        /// Request POST para cifrar texto.
+        /// </summary>
+        /// <param name="file">Archivo de texto original</param>
+        /// <param name="name">Nombre del cifrado a utilizar</param>
+        /// <param name="fileName">Nuevo nombre para el archivo de salida</param>
+        /// <param name="param">Parámetro para el método de cifrado</param>
+        /// <returns></returns>
         [HttpPost("{name}/{fileName}/{param}")]
-        public void Post([FromForm(Name ="file")] IFormFile file, string name, string fileName, string param)
+        public string Post([FromForm(Name = "file")] IFormFile file, string name, string fileName, string param)
         {
             //lectura del archivo
             var result = new StringBuilder();
@@ -42,29 +48,25 @@ namespace CipherMethods.Controllers
 
             if (name.ToLower().Equals("zigzag"))
             {
-
+                ZigZag zigzagCipher = new ZigZag();
+                zigzagCipher.calculate(int.Parse(param), result, fileName);
+                return "Texto encriptado, método: ZigZag";
+            }
+            else if (name.ToLower().Equals("caesar"))
+            {
+                Caesar caesarCipher = new Caesar(param);
+                caesarCipher.buildAlphabet();
+                caesarCipher.cipher(result, fileName);
+                return "Texto encriptado, método: Caesar";
+            }
+            else if (name.ToLower().Equals("ruta"))
+            {
+                return "Texto encriptado, método: Ruta";
             }
             else
             {
-                // es cifrado cesar 
+                return "MÉTODO INCORRECTO";
             }
-
-        }
-
-        //zigzag
-        [HttpPost("{name}/{fileName}/{param}")]
-        public void Post([FromForm(Name = "file")] IFormFile file, string name, string fileName, int param)
-        {
-            //lectura del archivo
-            var result = new StringBuilder();
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            {
-                while (reader.Peek() >= 0)
-                    result.AppendLine(reader.ReadLine());
-            }
-
-            ZigZag cipherZigZag = new ZigZag();
-            cipherZigZag.calculate(param, result.ToString(), fileName);
 
         }
 

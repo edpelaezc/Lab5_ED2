@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CipherMethods.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class DecipherController : ControllerBase
     {
@@ -18,12 +18,12 @@ namespace CipherMethods.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Decipher/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //// GET: api/Decipher/5
+        //[HttpGet("{id}", Name = "Get")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST: api/Decipher
         [HttpPost("{name}")]

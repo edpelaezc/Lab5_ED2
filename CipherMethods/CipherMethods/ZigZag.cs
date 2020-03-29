@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text;
 
 namespace CipherMethods
 {
     public class ZigZag
     {
+        string text;
         string fileName { get; set; }
         int rails { get; set; }
-        public void calculate(int rails, string text, string fileName) {
+        public void calculate(int rails, StringBuilder input, string fileName) {
             this.fileName = fileName;
             this.rails = rails;
-            int charQty = 1 + 1 + (2 * (rails - 2)); //cantidad de caracteres por ola 
+            text = input.ToString();
+            //eliminar el caracter \r\n que agrega el stringbuilder al final de todo el texto
+            text = text.Remove(text.Length - 1);
+            text = text.Remove(text.Length - 1);
+            float charQty = 1 + 1 + (2 * (rails - 2)); //cantidad de caracteres por ola 
             float unit = charQty / (charQty * charQty); //decimal correspondiente a un caracter
-            float waves = text.Length / charQty;
+            float auxLength = text.Length;
+            float waves = auxLength / charQty;
             double rest = waves  - Math.Truncate(waves); //parte decimal de las olas 
             
             rest = 1 - rest; //completar 
@@ -47,17 +55,15 @@ namespace CipherMethods
                                             
             }
 
-            
+            cipher(matrix);
         }
 
         public void cipher(string[,] matrix) {
             string encryptedText = "";
-            string folder = @"C:\Cipher\";
-            string fullPath = folder + fileName;
-
+            
             for (int i = 0; i < rails; i++)
             {
-                for (int j = 0; j < matrix.Length; j++)
+                for (int j = 0; j < text.Length; j++)
                 {
                     if (matrix[i, j] != "")
                     {
@@ -66,6 +72,17 @@ namespace CipherMethods
                 }
             }
 
+            //escribir archivo 
+            string folder = @"C:\Cipher\";
+            string fullPath = folder + fileName;
+            // crear el directorio
+            DirectoryInfo directory = Directory.CreateDirectory(folder);
+
+            using (StreamWriter file = new StreamWriter(fullPath))
+            {
+                file.WriteLine(encryptedText);
+                file.Close();
+            }
 
         }
     }
