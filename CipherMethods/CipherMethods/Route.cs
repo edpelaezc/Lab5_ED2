@@ -102,6 +102,204 @@ namespace CipherMethods
             }
         }
 
-        public void spiral() { }
+        public void spiral() 
+        {
+            int cont = 0;
+
+            bool right = true, down = false, left = false, up = false;
+            int x = 0, y = 0;
+            for (int i = 0; i < m*n; i++)
+            {
+                if (right)
+                {
+                    if (y < n && matrix[x, y] == '\0')
+                    {
+                        matrix[x, y] = (cont < text.Length) ? text[cont] : '#';
+                        cont++;
+                        y++;
+                    }
+                    else
+                    {
+                        y--;
+                        x++;
+                        right = false;
+                        down = true;
+                        i--;
+                    }
+                }
+                else if (down)
+                {
+                    if (x < m && matrix[x, y] == '\0')
+                    {
+                        matrix[x, y] = (cont < text.Length) ? text[cont] : '#';
+                        cont++;
+                        x++;
+                    }
+                    else
+                    {
+                        x--;
+                        y--;
+                        down = false;
+                        left = true;
+                        i--;
+                    }
+                }
+                else if (left)
+                {
+                    if (y > -1 && matrix[x, y] == '\0')
+                    {
+                        matrix[x, y] = (cont < text.Length) ? text[cont] : '#';
+                        cont++;
+                        y--;
+                    }
+                    else
+                    {
+                        y++;
+                        x--;
+                        left = false;
+                        up = true;
+                        i--;
+                    }
+                }
+                else if (up)
+                {
+                    if (x > -1 && matrix[x, y] == '\0')
+                    {
+                        matrix[x, y] = (cont < text.Length) ? text[cont] : '#';
+                        cont++;
+                        x--;
+                    }
+                    else
+                    {
+                        y++;
+                        x++;
+                        up = false;
+                        right = true;
+                        i--;
+                    }
+                }
+            }
+
+            string outPut = "";
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < m; i++)
+                {
+                    outPut += matrix[i, j];
+                }
+            }
+
+            //escribir archivo 
+            string folder = @"C:\Cipher\";
+            string fullPath = folder + fileName;
+            // crear el directorio
+            DirectoryInfo directory = Directory.CreateDirectory(folder);
+
+            using (StreamWriter file = new StreamWriter(fullPath))
+            {
+                file.WriteLine(outPut);
+                file.Close();
+            }
+        }
+
+        public void decipherSpiral()
+        {
+            int cont = 0;
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < m; i++)
+                {
+                    matrix[i, j] = text[cont];
+                    cont++;
+                }
+            }
+
+            string output = "";
+            bool right = true, down = false, left = false, up = false;
+            int x = 0, y = 0;
+            for (int i = 0; i < m * n; i++)
+            {
+                if (right)
+                {
+                    if (y < n && matrix[x, y] != '\0')
+                    {
+                        output += matrix[x, y].ToString();
+                        matrix[x, y] = '\0';
+                        y++;
+                    }
+                    else
+                    {
+                        y--;
+                        x++;
+                        right = false;
+                        down = true;
+                        i--;
+                    }
+                }
+                else if (down)
+                {
+                    if (x < m && matrix[x, y] != '\0')
+                    {
+                        output += matrix[x, y].ToString();
+                        matrix[x, y] = '\0';
+                        x++;
+                    }
+                    else
+                    {
+                        x--;
+                        y--;
+                        down = false;
+                        left = true;
+                        i--;
+                    }
+                }
+                else if (left)
+                {
+                    if (y > -1 && matrix[x, y] != '\0')
+                    {
+                        output += matrix[x, y].ToString();
+                        matrix[x, y] = '\0';
+                        y--;
+                    }
+                    else
+                    {
+                        y++;
+                        x--;
+                        left = false;
+                        up = true;
+                        i--;
+                    }
+                }
+                else if (up)
+                {
+                    if (x > -1 && matrix[x, y] != '\0')
+                    {
+                        output += matrix[x, y].ToString();
+                        matrix[x, y] = '\0';
+                        x--;
+                    }
+                    else
+                    {
+                        y++;
+                        x++;
+                        up = false;
+                        right = true;
+                        i--;
+                    }
+                }
+            }
+
+            //escribir archivo 
+            string folder = @"C:\Decipher\";
+            string fullPath = folder + fileName;
+            // crear el directorio
+            DirectoryInfo directory = Directory.CreateDirectory(folder);
+
+            using (StreamWriter file = new StreamWriter(fullPath))
+            {
+                file.WriteLine(output);
+                file.Close();
+            }
+        }
     }
 }
