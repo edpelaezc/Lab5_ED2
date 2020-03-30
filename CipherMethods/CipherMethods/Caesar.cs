@@ -12,6 +12,7 @@ namespace CipherMethods
         string keyWord { get; set; }
         List<char> newAlphabet = new List<char>();
         List<char> originalAlphabet = new List<char>();
+        bool flag; 
 
         public Caesar(string word) {
             keyWord = word;
@@ -48,8 +49,16 @@ namespace CipherMethods
         private int searchInAlphabet(char character) {
             for (int i = 0; i < originalAlphabet.Count; i++)
             {
-                if (character == originalAlphabet[i] || character == Char.ToUpper(originalAlphabet[i]))                
-                    return i;                
+                if (character == originalAlphabet[i])
+                {
+                    flag = false; 
+                    return i;
+                }
+                else if (character == Char.ToUpper(originalAlphabet[i]))
+                {
+                    flag = true; //si es true se escribe en mayuscula en el archivo encriptado
+                    return i;
+                }
             }
             return -1;
         }
@@ -64,13 +73,17 @@ namespace CipherMethods
 
             for (int i = 0; i < text.Length; i++)
             {
-                if (searchInAlphabet(text[i]) == -1)
+                int aux = searchInAlphabet(text[i]);
+                if (aux == -1)
                 {
                     encryptedText += text[i];
                 }
                 else
                 {
-                    encryptedText += newAlphabet[searchInAlphabet(text[i])];
+                    if (flag)
+                        encryptedText += char.ToUpper(newAlphabet[aux]);
+                    else
+                        encryptedText += newAlphabet[aux];
                 }
             }
 
@@ -86,5 +99,7 @@ namespace CipherMethods
                 file.Close();
             }
         }
+
+        public void decipher(StringBuilder input, string fileName) { }
     }
 }
