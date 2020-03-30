@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.IO;
 
 namespace CipherMethods.Controllers
 {
@@ -26,9 +28,37 @@ namespace CipherMethods.Controllers
         //}
 
         // POST: api/Decipher
-        [HttpPost("{name}")]
-        public void Post([FromForm(Name = "file")] IFormFile file, string name)
+        [HttpPost("{name}/{fileName}/{param}")]
+        public string Post([FromForm(Name = "file")] IFormFile file, string name, string fileName, string param)
         {
+            //lectura del archivo
+            var result = new StringBuilder();
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                while (reader.Peek() >= 0)
+                    result.AppendLine(reader.ReadLine());
+            }
+
+            if (name.ToLower().Equals("zigzag"))
+            {
+                return "Texto descifrado, método: ZigZag";
+            }
+            else if (name.ToLower().Equals("caesar"))
+            {
+                Caesar caesarCipher = new Caesar(param);
+                caesarCipher.buildAlphabet();
+                caesarCipher.decipher(result, fileName);
+                return "Texto descifrado, método: Caesar";
+            }
+            else if (name.ToLower().Equals("ruta"))
+            {
+                return "Texto descifrado, método: Ruta";
+            }
+            else
+            {
+                return "MÉTODO INCORRECTO";
+            }
+
         }
 
         // PUT: api/Decipher/5
