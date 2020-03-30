@@ -52,6 +52,21 @@ namespace CipherMethods.Controllers
             }
             else if (name.ToLower().Equals("ruta"))
             {
+                string[] parameters = param.Split(','); // la forma de ingresar parametro "mxn,tipo de ruta"
+                string[] dimensiones = parameters[0].Split('x');
+                int m = int.Parse(dimensiones[0]);
+                int n = int.Parse(dimensiones[1]);
+                Route routeCipher = new Route(m, n, result.ToString(), fileName);
+
+                if (parameters[1].ToLower().Equals("vertical"))
+                {
+                    routeCipher.vertical();
+                }
+                else
+                {
+                    routeCipher.spiral();
+                }
+
                 return "Texto descifrado, método: Ruta";
             }
             else
