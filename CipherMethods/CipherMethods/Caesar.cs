@@ -63,6 +63,24 @@ namespace CipherMethods
             return -1;
         }
 
+        private int searchInNewAlphabet(char character)
+        {
+            for (int i = 0; i < newAlphabet.Count; i++)
+            {
+                if (character == newAlphabet[i])
+                {
+                    flag = false;
+                    return i;
+                }
+                else if (character == Char.ToUpper(newAlphabet[i]))
+                {
+                    flag = true; //si es true se escribe en mayuscula en el archivo encriptado
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         public void cipher(StringBuilder input, string fileName) {
             string encryptedText = "";
             string text = input.ToString();
@@ -100,6 +118,41 @@ namespace CipherMethods
             }
         }
 
-        public void decipher(StringBuilder input, string fileName) { }
+        public void decipher(StringBuilder input, string fileName) {
+            string decipherText = "";
+            string text = input.ToString();
+            text = input.ToString();
+            //eliminar el caracter \r\n que agrega el stringbuilder al final de todo el texto
+            text = text.Remove(text.Length - 1);
+            text = text.Remove(text.Length - 1);
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                int aux = searchInNewAlphabet(text[i]);
+                if (aux == -1)
+                {
+                    decipherText += text[i];
+                }
+                else
+                {
+                    if (flag)
+                        decipherText += char.ToUpper(originalAlphabet[aux]);
+                    else
+                        decipherText += originalAlphabet[aux];
+                }
+            }
+
+            //escribir archivo 
+            string folder = @"C:\Cipher\";
+            string fullPath = folder + fileName;
+            // crear el directorio
+            DirectoryInfo directory = Directory.CreateDirectory(folder);
+
+            using (StreamWriter file = new StreamWriter(fullPath))
+            {
+                file.WriteLine(decipherText);
+                file.Close();
+            }
+        }
     }
 }
