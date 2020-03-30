@@ -51,8 +51,7 @@ namespace CipherMethods
                 {
                     matrix[i, cont] = text[cont].ToString();
                     cont++;
-                }
-                                            
+                }                                            
             }
 
             cipher(matrix);
@@ -84,6 +83,101 @@ namespace CipherMethods
                 file.Close();
             }
 
+        }
+
+        public void decipher(int rails, StringBuilder input, string fileName)
+        {
+            this.text = input.ToString();
+            this.rails = rails;
+
+            //eliminar el caracter \r\n que agrega el stringbuilder al final de todo el texto
+            text = text.Remove(text.Length - 1);
+            text = text.Remove(text.Length - 1);
+
+            int charQty = 2 + (2 * (rails - 2)); //cantidad de caracteres por ola 
+
+            //cantidad de picos
+            int picos = text.Length / charQty;
+
+            string[,] matrix = new string[rails, (text.Length - (2 * picos)) / (rails - 2)];
+
+            fillMatrix(text, picos, ref matrix);
+
+            string result = "";
+
+            int cont = 0;
+            int colExt = 0;
+            int colInt = 0;
+            while (cont != text.Length)
+            {
+                result += matrix[0, colExt];
+                cont++;
+
+                for (int i = 1; i < (rails-1); i++)
+                {
+                    result += matrix[i, colInt];
+                    cont++;
+                }
+                colInt++;
+
+                result += matrix[rails-1, colExt];
+                cont++;
+                colExt++;
+
+                for (int i = rails - 2; i > 0; i--)
+                {
+                    result += matrix[i, colInt];
+                    cont++;
+                }
+                colInt++;
+            }
+
+            bool deleteAllExtra = false;
+            while (!deleteAllExtra)
+            {
+                if (result[result.Length -1] == '#')
+                {
+                    result = result.Remove(result.Length - 1);
+                }
+                else
+                {
+                    deleteAllExtra = true;
+                }
+            }
+
+            //escribir archivo 
+            string folder = @"C:\Decipher\";
+            string fullPath = folder + fileName;
+            // crear el directorio
+            DirectoryInfo directory = Directory.CreateDirectory(folder);
+
+            using (StreamWriter file = new StreamWriter(fullPath))
+            {
+                file.WriteLine(result);
+                file.Close();
+            }
+        }
+
+        private void fillMatrix(string text, int picos, ref string[,] matrix)
+        {            
+            for (int i = 0; i < picos; i++)
+            {
+                matrix[0, i] = text[i].ToString();          // primera fila
+
+                int pos = (text.Length - picos) + i;        // ultima fila
+                matrix[rails - 1, i] = text[pos].ToString();
+            }
+
+            int split = (text.Length - (picos * 2)) / (rails - 2);
+            int cont = picos;
+            for (int i = 1; i < rails - 1; i++)
+            {
+                for (int j = 0; j < split; j++)
+                {
+                    matrix[i, j] = text[cont].ToString();
+                    cont++;
+                }
+            }
         }
     }
 }

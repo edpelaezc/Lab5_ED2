@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {}
+    "C:\\Users\\llaaj\\Documents\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {
+    "C:\\Users\\llaaj\\Documents\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
+        "projectUniqueName": "C:\\Users\\llaaj\\Documents\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
         "projectName": "CipherMethods",
-        "projectPath": "C:\\GitHub\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
-        "packagesPath": "C:\\Users\\edanP\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\Lab5_ED2\\CipherMethods\\CipherMethods\\obj\\",
+        "projectPath": "C:\\Users\\llaaj\\Documents\\Lab5_ED2\\CipherMethods\\CipherMethods\\CipherMethods.csproj",
+        "packagesPath": "C:\\Users\\llaaj\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\llaaj\\Documents\\Lab5_ED2\\CipherMethods\\CipherMethods\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\edanP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\llaaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -64,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
