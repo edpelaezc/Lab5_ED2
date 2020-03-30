@@ -73,8 +73,32 @@ namespace CipherMethods
             {
                 for (int j = 0; j < n; j++)
                 {
-
+                    matrix[i, j] = text[cont];
+                    cont++;
                 }
+            }
+
+            string outPut = "";
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    outPut += matrix[j, i];
+                }
+            }
+
+            outPut = outPut.Replace('#', ' ');
+
+            //escribir archivo 
+            string folder = @"C:\Cipher\";
+            string fullPath = folder + fileName;
+            // crear el directorio
+            DirectoryInfo directory = Directory.CreateDirectory(folder);
+
+            using (StreamWriter file = new StreamWriter(fullPath))
+            {
+                file.WriteLine(outPut);
+                file.Close();
             }
         }
 

@@ -60,7 +60,7 @@ namespace CipherMethods.Controllers
 
                 if (parameters[1].ToLower().Equals("vertical"))
                 {
-                    routeCipher.vertical();
+                    routeCipher.decipherVertical();
                 }
                 else
                 {
